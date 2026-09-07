@@ -28,6 +28,26 @@ struct _TrayManagerPlugin {
   FlMethodChannel* channel;
 };
 
+static AppIndicator* create_indicator(
+    const gchar* id,
+    const gchar* icon_path) {
+#ifdef HAVE_AYATANA
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#endif
+
+  AppIndicator* result = app_indicator_new(
+      id,
+      icon_path,
+      APP_INDICATOR_CATEGORY_APPLICATION_STATUS);
+
+#ifdef HAVE_AYATANA
+#pragma clang diagnostic pop
+#endif
+
+  return result;
+}
+
 G_DEFINE_TYPE(TrayManagerPlugin, tray_manager_plugin, g_object_get_type())
 
 // Gets the window being controlled.
@@ -115,8 +135,7 @@ static FlMethodResponse* set_icon(TrayManagerPlugin* self, FlValue* args) {
     menu = gtk_menu_new();
 
   if (!indicator) {
-    indicator = app_indicator_new(id, icon_path,
-                                  APP_INDICATOR_CATEGORY_APPLICATION_STATUS);
+    indicator = create_indicator(id, icon_path);
 
     app_indicator_set_menu(indicator, GTK_MENU(menu));
     gtk_widget_show_all(menu);
