@@ -5,7 +5,7 @@ project(${PROJECT_NAME} LANGUAGES CXX)
 set(PLUGIN_NAME "tray_manager_plugin")
 
 add_library(${PLUGIN_NAME} SHARED
-  "tray_manager_plugin.cpp"
+  "tray_manager_plugin.cc"
 )
 
 apply_standard_settings(${PLUGIN_NAME})
