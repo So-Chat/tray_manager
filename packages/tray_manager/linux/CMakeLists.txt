@@ -16,6 +16,7 @@ set_target_properties(${PLUGIN_NAME} PROPERTIES
 
 target_compile_definitions(${PLUGIN_NAME} PRIVATE
   FLUTTER_PLUGIN_IMPL
+  HAVE_AYATANA
   _SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING
 )
 
@@ -24,12 +25,7 @@ target_include_directories(${PLUGIN_NAME} INTERFACE
 )
 
 find_package(PkgConfig REQUIRED)
-
 pkg_check_modules(AYATANA REQUIRED ayatana-appindicator3-0.1)
-
-target_compile_definitions(${PLUGIN_NAME} PRIVATE
-  HAVE_AYATANA
-)
 
 target_include_directories(${PLUGIN_NAME} PRIVATE
   ${AYATANA_INCLUDE_DIRS}
@@ -41,7 +37,6 @@ target_link_directories(${PLUGIN_NAME} PRIVATE
 
 target_link_libraries(${PLUGIN_NAME} PRIVATE
   flutter
-  flutter_wrapper_plugin
   ${AYATANA_LIBRARIES}
 )
 
